@@ -219,6 +219,12 @@
   .schematic-box .cap{ font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; }
   .schematic-box .sub{ font-size:11.5px; }
 
+  .local-video{ width:100%; display:block; background:#000; border:1px solid var(--trace); margin-bottom:16px; }
+  .schematic-img{ width:100%; display:block; border:1px solid var(--trace); margin-bottom:26px; background:#0a1710; }
+  .photo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:22px; }
+  .photo-grid img{ width:100%; display:block; border:1px solid var(--trace); aspect-ratio:3/4; object-fit:cover; }
+  .media-caption{ font-family:var(--font-mono); font-size:10.5px; color:var(--muted); text-align:center; margin:-10px 0 22px; text-transform:uppercase; letter-spacing:0.05em; }
+
   table.bom{ width:100%; border-collapse:collapse; font-family: var(--font-mono); font-size:11.5px; }
   table.bom caption{ text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--copper); margin-bottom:10px; }
   table.bom th, table.bom td{ text-align:left; padding:8px 4px; border-bottom:1px solid var(--trace); }
@@ -306,6 +312,120 @@
     </div>
 
     <div class="projects">
+
+      <!-- PROJECT 0 — MOTORLU BAYRAK SİSTEMİ -->
+      <article class="project">
+        <div class="project-head">
+          <div>
+            <div class="project-id">PRJ-000 / DC MOTOR · BTS7960B · ATMEGA32</div>
+            <div class="project-name">Motorlu Bayrak Direği Sistemi</div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <span class="tag">Uzaktan Kumanda</span>
+            <span class="tag">Enkoder</span>
+            <span class="status">Geliştiriliyor</span>
+          </div>
+        </div>
+        <div class="project-body">
+          <div class="project-media">
+            <video class="local-video" src="assets/bayrak-video-1.mp4" controls preload="metadata"></video>
+            <video class="local-video" src="assets/bayrak-video-2.mp4" controls preload="metadata"></video>
+
+            <div class="photo-grid">
+              <img src="assets/bayrak-pcb-4171.jpg" alt="Motorlu bayrak sistemi elle lehimlenmiş devre kartları">
+              <img src="assets/bayrak-pcb-4172.jpg" alt="Motorlu bayrak sistemi güç kaynağı ve sürücü montajı">
+            </div>
+            <div class="media-caption">Elle lehimlenmiş kartlar ve alüminyum profil içine montaj</div>
+
+            <div class="desc-label">Genel Bakış</div>
+            <p class="desc">
+              Bayrağı motorlu olarak otomatik indirip kaldırmak için geliştirilen bir sistem.
+              DC motor, bir makara düzeneği üzerinden bayrak halatını çekiyor; tüm kontrol
+              devresi ATmega32 tabanlı bir kart üzerinde toplandı.
+            </p>
+
+            <div class="desc-label">Frenleme ve İniş Kontrolü</div>
+            <p class="desc">
+              Motorun sürücü çıkışına bir güç direnci (taş direnç) ekleyerek elektriksel
+              frenleme sağladım. Bayrağın kendi ağırlığı iniş sırasında motoru dışarıdan
+              çekip hızlandırma eğilimindeydi; bu direnç sayesinde motor geri EMF'i
+              üzerinden frenleniyor ve bayrak istenen sabit hızda, kontrollü şekilde iniyor.
+            </p>
+
+            <div class="desc-label">Uzaktan Kumanda ve Sınır Anahtarları</div>
+            <p class="desc">
+              Devrede bir uzaktan kumanda alıcı modülü var, bu sayede bayrağı uzaktan
+              indirip toplayabiliyorum. Ayrıca üst ve alt sınır anahtarları için ayrı
+              iki giriş bıraktım. Bir sonraki adımda kumandaya her basışta bayrağın o an
+              ne kadar indiğini/çıktığını takip etmek için pozisyon geri bildirimi eklemeyi
+              planlıyorum — böylece manuel kontrol etme zorunluluğu ortadan kalkacak.
+            </p>
+
+            <div class="desc-label">Hava Koşullarına Karşı Koruma</div>
+            <p class="desc">
+              Yağmur ve rüzgar sensörleri için de ayrı girişler bıraktım. Aşırı yağmur veya
+              rüzgar tespit edildiğinde sistem bayrağı otomatik olarak geri sarıp yıpranmasını
+              önleyecek.
+            </p>
+
+            <div class="desc-label">Mekanik ve Pozisyon Kontrolü</div>
+            <p class="desc">
+              Bayrağın iki yanına kılavuz halatlar çekilecek; bu sayede açılırken ve
+              toplanırken daha düzgün hareket edecek. DC motorun arkasına bir enkoder
+              eklendi — enkoder sayesinde bayrağın ne kadar açılacağı ve ne kadar
+              sarılacağı hassas şekilde ayarlanabilecek.
+            </p>
+
+            <div class="desc-label">Motor Sürücü ve Güç Katmanı</div>
+            <p class="desc">
+              Motoru sürmek için BTS7960B 40A motor sürücü kartı kullandım. Motor 24V
+              olduğu için 220V/24V AC-DC güç kaynağıyla besliyorum. Motorun salınımlarından
+              ve manyetik alanın oluşturduğu gerilim dalgalanmalarından etkilenmemek için
+              güç hattına bolca kondansatör ekledim.
+            </p>
+          </div>
+          <div class="project-side">
+            <img class="schematic-img" src="assets/bayrak-semantik.png" alt="Motorlu bayrak sistemi PCB şematik/routing görseli">
+
+            <table class="bom">
+              <caption>Ana Bileşenler</caption>
+              <thead><tr><th>Parça</th><th>Değer / Model</th><th>Adet</th></tr></thead>
+              <tbody>
+                <tr><td>MCU</td><td>ATmega32</td><td class="qty">1</td></tr>
+                <tr><td>Motor Sürücü</td><td>BTS7960B, 40A</td><td class="qty">1</td></tr>
+                <tr><td>Motor</td><td>DC Motor 24V + Enkoder</td><td class="qty">1</td></tr>
+                <tr><td>Güç Kaynağı</td><td>220V/24V AC-DC</td><td class="qty">1</td></tr>
+                <tr><td>Frenleme</td><td>Güç Direnci (Taş Direnç)</td><td class="qty">1</td></tr>
+                <tr><td>Kumanda</td><td>RF Alıcı + PT2272 Kod Çözücü</td><td class="qty">1</td></tr>
+                <tr><td>Sınır Anahtarı</td><td>Üst / Alt (2 giriş)</td><td class="qty">2</td></tr>
+                <tr><td>Sensör Girişi</td><td>Yağmur / Rüzgar</td><td class="qty">2</td></tr>
+              </tbody>
+            </table>
+
+            <table class="bom" style="margin-top:26px;">
+              <caption>PCB Elemanları</caption>
+              <thead><tr><th>Ref</th><th>Değer</th><th></th></tr></thead>
+              <tbody>
+                <tr><td>C1-C2</td><td>22nF</td><td class="qty">2</td></tr>
+                <tr><td>C3-C4,C6,C9</td><td>100nF</td><td class="qty">4</td></tr>
+                <tr><td>C5,C7</td><td>10µF</td><td class="qty">2</td></tr>
+                <tr><td>C8</td><td>2200µF</td><td class="qty">1</td></tr>
+                <tr><td>C11,C13</td><td>1000µF</td><td class="qty">2</td></tr>
+                <tr><td>C12</td><td>1nF</td><td class="qty">1</td></tr>
+                <tr><td>D1</td><td>LED (Kırmızı)</td><td class="qty">1</td></tr>
+                <tr><td>D3</td><td>1N4148</td><td class="qty">1</td></tr>
+                <tr><td>Q1</td><td>BC337</td><td class="qty">1</td></tr>
+                <tr><td>Q2</td><td>BC547BP</td><td class="qty">1</td></tr>
+                <tr><td>R1,R5</td><td>220R</td><td class="qty">2</td></tr>
+                <tr><td>R2</td><td>1k</td><td class="qty">1</td></tr>
+                <tr><td>R3,R6</td><td>10k</td><td class="qty">2</td></tr>
+                <tr><td>R4</td><td>PR135V450 serisi</td><td class="qty">1</td></tr>
+                <tr><td>X1</td><td>Kristal</td><td class="qty">1</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
 
       <!-- PROJECT 1 -->
       <article class="project">
